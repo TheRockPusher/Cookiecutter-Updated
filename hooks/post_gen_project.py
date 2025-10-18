@@ -37,6 +37,12 @@ def cleanup_conditional_files() -> None:
 
     use_codecov = {{ "True" if cookiecutter.use_codecov else "False" }}
 
+    # Remove license templates copied into the project - the selected LICENSE file
+    # will be rendered at the repository root using shared templates from the
+    # cookiecutter's top-level ``licenses/`` directory.
+    print("\n📄 Cleaning up license templates...")
+    remove_file_or_dir("licenses")
+
     # Codecov configuration (optional)
     if not use_codecov:
         print("\n📦 Codecov disabled - no additional cleanup needed")
