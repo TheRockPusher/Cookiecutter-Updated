@@ -1,0 +1,47 @@
+{% raw %}name: CI
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: ["**"]
+  workflow_call:
+
+jobs:
+  check:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python-env
+
+      - name: Run code quality checks
+        run: make check
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python-env
+
+      - name: Run tests
+        run: make test
+{% endraw %}
+{% if cookiecutter.use_codecov %}
+{% raw %}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        if: always()
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+{% endraw %}
+{% endif %}
