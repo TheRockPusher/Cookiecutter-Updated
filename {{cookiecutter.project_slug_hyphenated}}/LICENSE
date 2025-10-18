@@ -7,4 +7,5 @@
     "Proprietary": "license_proprietary.md",
 } %}
 {% set license_template = license_map.get(cookiecutter.license, "license_proprietary.md") %}
-{% include "licenses/" ~ license_template %}
+{% set license_dir = cookiecutter.project_slug_hyphenated ~ "/licenses/" %}
+{% include license_dir ~ license_template %}
