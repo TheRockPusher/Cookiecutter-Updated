@@ -58,6 +58,18 @@ def validate_python_version() -> None:
     print(f"✓ Python version '{python_version}' is valid")
 
 
+def validate_ai_choice() -> None:
+    """Validate the AI scaffolding choice."""
+    ai_choice = "{{ cookiecutter.AI }}"
+    valid_choices = {"yes", "no"}
+
+    if ai_choice.lower() not in valid_choices:
+        print("ERROR: AI option must be 'yes' or 'no'!")
+        sys.exit(1)
+
+    print(f"✓ Claude AI scaffolding selection: {ai_choice}")
+
+
 def main() -> None:
     """Run all validations."""
     print("=" * 60)
@@ -68,6 +80,7 @@ def main() -> None:
         validate_project_slug()
         validate_email()
         validate_python_version()
+        validate_ai_choice()
 
         print("=" * 60)
         print("✓ All validations passed!")

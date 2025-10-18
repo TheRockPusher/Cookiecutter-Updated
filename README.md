@@ -34,6 +34,7 @@ This template generates a Python project with:
 ### 🐳 Optional Features
 - **Codecov integration** - Code coverage reporting and tracking
 - **CLI entry point** - Command-line interface scaffolding
+- **Claude AI scaffolding** - Optional documentation and workspace directory
 
 ## Prerequisites
 
@@ -91,6 +92,7 @@ You'll be prompted for the following options:
 | `license` | Project license | `MIT`, `Apache-2.0`, `BSD-3-Clause`, `GPL-3.0`, `Proprietary` |
 | `use_codecov` | Enable Codecov integration | `false` / `true` |
 | `include_cli` | Include CLI entry point | `true` / `false` |
+| `AI` | Include Claude AI helper files (`CLAUDE.md`, `.claude/`) | `yes` / `no` |
 
 ## Generated Project Structure
 
@@ -116,6 +118,14 @@ my-awesome-project/
 ├── Makefile                              # Development commands
 ├── pyproject.toml                        # Project configuration
 └── README.md                             # Project documentation
+
+Optional Claude AI files (when enabled):
+
+```
+my-awesome-project/
+├── CLAUDE.md                             # Claude integration guide
+└── .claude/
+    └── README.md                         # Workspace documentation
 ```
 
 ## After Generation

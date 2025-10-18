@@ -106,6 +106,12 @@ else
     exit 1
 fi
 
+# Ensure optional Claude assets are absent when not selected
+if [ -e "CLAUDE.md" ] || [ -d ".claude" ]; then
+    echo -e "${RED}❌ Test 2 FAILED: Claude AI assets should not exist by default${NC}"
+    exit 1
+fi
+
 # Test 3: Verify variable substitution
 echo ""
 echo "🔍 Test 3: Verifying variable substitution..."

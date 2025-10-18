@@ -24,6 +24,17 @@ def cleanup_conditional_files() -> None:
     print("Cleaning up conditional files...")
     print("=" * 60)
 
+    ai_choice = "{{ cookiecutter.AI }}"
+    use_ai = ai_choice.lower() == "yes"
+
+    if use_ai:
+        print("\n🤖 Claude AI scaffolding enabled")
+        print("  Keeping CLAUDE.md and .claude/ directory")
+    else:
+        print("\n🤖 Claude AI scaffolding disabled")
+        remove_file_or_dir("CLAUDE.md")
+        remove_file_or_dir(".claude")
+
     use_codecov = {{ "True" if cookiecutter.use_codecov else "False" }}
 
     # Codecov configuration (optional)
