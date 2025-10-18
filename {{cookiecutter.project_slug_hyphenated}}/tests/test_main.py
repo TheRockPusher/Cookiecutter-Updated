@@ -1,7 +1,9 @@
 """Tests for {{cookiecutter.project_name}}."""
 
+{% if cookiecutter.include_cli %}
 import pytest
 
+{% endif %}
 from {{cookiecutter.project_slug}} import example_function{% if cookiecutter.include_cli %}, main{% endif %}
 
 

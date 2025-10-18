@@ -3,6 +3,35 @@
 
 set -e  # Exit on error
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+COOKIECUTTER_CONFIG="$SCRIPT_DIR/cookiecutter.json"
+
+DEFAULT_PROJECT_NAME=$(COOKIECUTTER_CONFIG_PATH="$COOKIECUTTER_CONFIG" python3 - <<'PY'
+import json
+import os
+from pathlib import Path
+
+config_path = Path(os.environ["COOKIECUTTER_CONFIG_PATH"])
+with config_path.open(encoding="utf-8") as handle:
+    data = json.load(handle)
+
+print(data["project_name"])
+PY
+)
+
+DEFAULT_PROJECT_DESCRIPTION=$(COOKIECUTTER_CONFIG_PATH="$COOKIECUTTER_CONFIG" python3 - <<'PY'
+import json
+import os
+from pathlib import Path
+
+config_path = Path(os.environ["COOKIECUTTER_CONFIG_PATH"])
+with config_path.open(encoding="utf-8") as handle:
+    data = json.load(handle)
+
+print(data["description"])
+PY
+)
+
 echo "🧪 Testing Cookiecutter Template"
 echo "================================="
 
@@ -25,14 +54,23 @@ echo "📦 Test 1: Generating project with default values..."
 cd "$TEST_DIR"
 uvx --with jinja2-time cookiecutter .. --no-input
 
-if [ -d "my-python-project" ]; then
-    echo -e "${GREEN}✅ Test 1 PASSED: Project created${NC}"
+PROJECT_DIR=$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | head -n 1)
+
+if [ -n "$PROJECT_DIR" ] && [ -d "$PROJECT_DIR" ]; then
+    echo -e "${GREEN}✅ Test 1 PASSED: Project '$PROJECT_DIR' created${NC}"
 else
     echo -e "${RED}❌ Test 1 FAILED: Project not created${NC}"
     exit 1
 fi
 
-cd my-python-project
+cd "$PROJECT_DIR"
+
+PACKAGE_DIR=$(find src -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | head -n 1)
+
+if [ -z "$PACKAGE_DIR" ]; then
+    echo -e "${RED}❌ Test 1 FAILED: Could not determine package directory${NC}"
+    exit 1
+fi
 
 # Test 2: Check critical files exist
 echo ""
@@ -45,8 +83,8 @@ REQUIRED_FILES=(
     ".gitignore"
     ".pre-commit-config.yaml"
     ".python-version"
-    "src/my_python_project/__init__.py"
-    "src/my_python_project/py.typed"
+    "src/$PACKAGE_DIR/__init__.py"
+    "src/$PACKAGE_DIR/py.typed"
     "tests/test_main.py"
     ".github/workflows/ci.yml"
     ".github/workflows/release.yml"
@@ -71,9 +109,9 @@ fi
 # Test 3: Verify variable substitution
 echo ""
 echo "🔍 Test 3: Verifying variable substitution..."
-if grep -q "my-python-project" pyproject.toml && \
-   grep -q "my_python_project" src/my_python_project/__init__.py && \
-   grep -q "My Python Project" README.md; then
+if grep -q "name = \"$PROJECT_DIR\"" pyproject.toml && \
+   grep -q "description = \"$DEFAULT_PROJECT_DESCRIPTION\"" pyproject.toml && \
+   grep -q "def example_function" "src/$PACKAGE_DIR/__init__.py"; then
     echo -e "${GREEN}✅ Test 3 PASSED: Variables correctly substituted${NC}"
 else
     echo -e "${RED}❌ Test 3 FAILED: Variable substitution issues${NC}"
@@ -123,7 +161,7 @@ fi
 # Test 8: Verify imports work
 echo ""
 echo "📦 Test 8: Testing imports..."
-if uv run python -c "from my_python_project import example_function; assert example_function('test') == 'test'"; then
+if uv run python -c "from $PACKAGE_DIR import example_function; assert example_function('test') == 'test'"; then
     echo -e "${GREEN}✅ Test 8 PASSED: Imports work correctly${NC}"
 else
     echo -e "${RED}❌ Test 8 FAILED: Import errors${NC}"
@@ -133,8 +171,9 @@ fi
 # Test 9: Verify CLI works
 echo ""
 echo "🖥️  Test 9: Testing CLI entry point..."
-OUTPUT=$(uv run my-python-project)
-if echo "$OUTPUT" | grep -q "Hello from My Python Project"; then
+CLI_COMMAND="$PROJECT_DIR"
+OUTPUT=$(uv run "$CLI_COMMAND")
+if echo "$OUTPUT" | grep -q "Hello from $DEFAULT_PROJECT_NAME"; then
     echo -e "${GREEN}✅ Test 9 PASSED: CLI works correctly${NC}"
 else
     echo -e "${RED}❌ Test 9 FAILED: CLI output incorrect${NC}"
