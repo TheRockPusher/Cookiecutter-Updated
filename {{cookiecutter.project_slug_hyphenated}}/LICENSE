@@ -1,13 +1,10 @@
-{% if cookiecutter.license == "MIT" -%}
-{% include "licenses/license_mit.md" %}
-{%- elif cookiecutter.license == "Apache-2.0" -%}
-{% include "licenses/license_apache-2.0.md" %}
-{%- elif cookiecutter.license == "BSD-3-Clause" -%}
-{% include "licenses/license_bsd-3-clause.md" %}
-{%- elif cookiecutter.license == "GPL-3.0" -%}
-{% include "licenses/license_gpl-3.0.md" %}
-{%- elif cookiecutter.license == "AGPL-3.0" -%}
-{% include "licenses/license_agpl-3.0.md" %}
-{%- else -%}
-{% include "licenses/license_proprietary.md" %}
-{%- endif %}
+{% set license_map = {
+    "MIT": "license_mit.md",
+    "Apache-2.0": "license_apache-2.0.md",
+    "BSD-3-Clause": "license_bsd-3-clause.md",
+    "GPL-3.0": "license_gpl-3.0.md",
+    "AGPL-3.0": "license_agpl-3.0.md",
+    "Proprietary": "license_proprietary.md",
+} %}
+{% set license_template = license_map.get(cookiecutter.license, "license_proprietary.md") %}
+{% include "licenses/" ~ license_template %}
