@@ -207,7 +207,6 @@ marimo/_lsp/
 __marimo__/
 
 # AI
-.claude/*
-CLAUDE.md
+# (keep directory entries if they are generated locally, but template assets are tracked)
 AI/*
 .mcp.json

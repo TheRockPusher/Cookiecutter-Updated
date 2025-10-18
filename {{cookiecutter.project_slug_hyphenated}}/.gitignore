@@ -189,6 +189,10 @@ __marimo__/
 .streamlit/secrets.toml
 
 # AI
-CLAUDE.md
-.claude/*
+{% if cookiecutter.AI == "no" -%}
+{{ 'CLAUDE.md' }}
+{{ '.claude/*' }}
+{% else -%}
+# Claude AI scaffolding is kept under version control when enabled
+{% endif -%}
 AGENTS.md

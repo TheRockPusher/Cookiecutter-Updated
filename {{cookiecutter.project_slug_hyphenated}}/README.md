@@ -23,6 +23,9 @@
 {% if cookiecutter.use_codecov -%}
 - Code coverage reporting with Codecov
 {% endif %}
+{% if cookiecutter.AI|lower == "yes" -%}
+- Claude AI scaffolding (CLAUDE.md and `.claude/` workspace)
+{% endif %}
 
 ## Installation
 
@@ -144,6 +147,17 @@ All checks run automatically via pre-commit hooks and CI/CD.
 ├── .pre-commit-config.yaml               # Pre-commit hooks
 └── README.md                             # This file
 ```
+{% if cookiecutter.AI|lower == "yes" -%}
+
+Additional Claude AI assets:
+
+```
+{{cookiecutter.project_slug_hyphenated}}/
+├── CLAUDE.md                             # Claude integration guide
+└── .claude/
+    └── README.md                         # Workspace documentation
+```
+{% endif %}
 
 ## Contributing
 
