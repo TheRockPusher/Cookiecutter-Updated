@@ -1,0 +1,38 @@
+{
+    "project_name": "my_project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "project_slug_hyphenated": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}",
+    "description": "A Python project",
+    "author_name": "Your Name",
+    "author_email": "your.email@example.com",
+    "github_username": "your-username",
+    "python_version": "3.13",
+    "license": ["MIT", "Apache-2.0", "BSD-3-Clause", "GPL-3.0", "Proprietary"],
+    "use_codecov": false,
+    "include_cli": true,
+    "__prompts__": {
+        "project_name": "What is your project name?",
+        "project_slug": "What is your Python package name? (auto-generated from project name)",
+        "project_slug_hyphenated": "What is your repository name? (auto-generated from project name)",
+        "description": "Provide a short description of your project",
+        "author_name": "What is your full name?",
+        "author_email": "What is your email address?",
+        "github_username": "What is your GitHub username or organization?",
+        "python_version": "What minimum Python version do you want to support?",
+        "license": {
+            "__prompt__": "Choose a license for your project",
+            "MIT": "MIT License (permissive)",
+            "Apache-2.0": "Apache License 2.0 (permissive with patent grant)",
+            "BSD-3-Clause": "BSD 3-Clause License (permissive)",
+            "GPL-3.0": "GNU GPL v3.0 (copyleft)",
+            "Proprietary": "Proprietary/Closed Source"
+        },
+        "use_codecov": "Enable Codecov integration for coverage reports?",
+        "include_cli": "Include a CLI entry point?"
+    },
+    "_extensions": ["jinja2_time.TimeExtension"],
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+    }
+}
