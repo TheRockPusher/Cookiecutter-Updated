@@ -89,7 +89,7 @@ You'll be prompted for the following options:
 | `author_email` | Your email address | `jane@example.com` |
 | `github_username` | GitHub username or org | `janedoe` |
 | `python_version` | Minimum Python version | `3.13` |
-| `license` | Project license | `MIT`, `Apache-2.0`, `BSD-3-Clause`, `GPL-3.0`, `Proprietary` |
+| `license` | Project license | `MIT`, `Apache-2.0`, `BSD-3-Clause`, `GPL-3.0`, `AGPL-3.0`, `Proprietary` |
 | `use_codecov` | Enable Codecov integration | `false` / `true` |
 | `include_cli` | Include CLI entry point | `true` / `false` |
 | `AI` | Include Claude AI helper files (`CLAUDE.md`, `.claude/`) | `yes` / `no` |
