@@ -43,12 +43,12 @@ jobs:
 
       - name: Verify branch
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/master" ]; then
-            echo "❌ Releases must be from master branch"
+          if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/master" ]; then
+            echo "❌ Releases must be from main or master branch"
             echo "Current branch: ${{ github.ref }}"
             exit 1
           fi
-          echo "✅ Running on master branch"
+          echo "✅ Running on default branch"
 
       - name: Setup Python environment
         uses: ./.github/actions/setup-python-env
