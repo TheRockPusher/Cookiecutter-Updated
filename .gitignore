@@ -210,3 +210,6 @@ __marimo__/
 # (keep directory entries if they are generated locally, but template assets are tracked)
 AI/*
 .mcp.json
+.claude/*
+CLAUDE.md
+AGENTS.md
